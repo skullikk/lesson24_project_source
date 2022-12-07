@@ -11,11 +11,14 @@ app = Flask(__name__)
 
 @app.route("/perform_query", methods=['POST'])
 def perform_query() -> Response:
-    file_name: Optional[str] = request.args.get('file_name')
-    cmd1: Optional[str] = request.args.get('cmd1')
-    value1: Optional[str] = request.args.get('value1')
-    cmd2: Optional[str] = request.args.get('cmd2')
-    value2: Optional[str] = request.args.get('value2')
+    try:
+        file_name: Optional[str] = request.args['file_name']
+        cmd1: str = request.args['cmd1']
+        value1: Optional[str] = request.args['value1']
+        cmd2: Optional[str] = request.args['cmd2']
+        value2: Optional[str] = request.args['value2']
+    except KeyError:
+        return Response({'error': 'Ужасные данные'}, 400)
 
     path: str = f'{DATA_DIR}\\{file_name}'
 
